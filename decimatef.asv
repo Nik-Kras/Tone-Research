@@ -1,0 +1,20 @@
+function xd = decimatef( x, fs, fsd )
+%UNTITLED2 Summary of this function goes here
+%   Detailed explanation goes here
+N  = length(x(:,1));
+dt = 1/fs;
+Ts = (N-1)*dt;
+t  = 0:dt:Ts;
+
+df = fs/N;
+Fm = fs/2;
+f = -Fm:df:Fm - df;
+Fc = 3000;
+
+H = zeros(1,N);
+Nc = ceil((N/(2*Fm))*Fc + N/2);
+Ns = ceil(N/2 - (Nc - N/2));
+Ne = ceil(N/2 + (Nc - N/2));
+
+end
+
