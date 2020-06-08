@@ -20,15 +20,14 @@ Fm = fs/2;
 f = -Fm:df:Fm - df;
 
 % Spectrum
-X(:,1) = fft(x(:,1)) / N;
-X(:,2) = fft(x(:,2)) / N;
+X = fft(x(:,1)) / N;
 
-Xp = abs(fftshift(X(:,1)));
+Xp = abs(fftshift(X));
 Xp = Xp(N/2 + 1:end);
 fp = f(N/2 + 1:end);
 
 if MinFreqStep == 0
-    MinFreqStep = 40;
+    MinFreqStep = 10;
 end
 if MinAmplitude == 0
     MinAmplitude = max(Xp)/100;
@@ -57,12 +56,12 @@ xlabel('f, Hz');
 
 Nf = length(FharmRaw);
 CompareVector = zeros(1, Nf);
-ErrorTresholdDivision = 0.05;
+ErrorTresholdDivision = 0.04;
 
 for i = 1:Nf
    for j = 1:Nf
         if FharmRaw(i) < FharmRaw(j)
-            integerVal = floor(FharmRaw(j)/FharmRaw(i));
+            integerVal = round(FharmRaw(j)/FharmRaw(i));
             floatVal   = FharmRaw(j)/FharmRaw(i);
             freqDifference = abs(floatVal-integerVal);
             if freqDifference < ErrorTresholdDivision
@@ -71,7 +70,7 @@ for i = 1:Nf
         end
     end
 end
-disp(['????????? ???????? - ', num2str(CompareVector)]);
+disp(['?????????? ??????? ???????? - ', num2str(CompareVector)]);
 
 % Find index of Base tone
 BaseVal = max(CompareVector);
@@ -80,18 +79,19 @@ BaseFreqIndex = 0;
 for i = 1:length(CompareVector)
    if BaseVal == CompareVector(i)
        BaseFreqIndex = i;
+       break;
    end
 end
 
 % Harmonics filtering by base tone (only multiple of base will go further)
 F0 = FharmRaw(BaseFreqIndex);
-ErrorThreshold = 0.05;
+ErrorThreshold = 0.04;
 FharmCnt = 0;
 Fharm    = 0;
 pks      = 0;
 
 for i = 1:length(FharmRaw)
-    integerVal = floor(FharmRaw(i)/F0);
+    integerVal = round(FharmRaw(i)/F0);
     floatVal   = FharmRaw(i)/F0;
     freqDifference = abs(floatVal-integerVal);
     if ( freqDifference < ErrorThreshold )
