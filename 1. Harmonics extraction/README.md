@@ -4,3 +4,4 @@ It contains Live Script file <i>"1. Harmonics extruction.mlx"</i>, where every s
 Also it contains a m-script <i>"HarmonicsExtraction.m"</i>, that realizes a function to process extraction like in Live Script.
 File <i>"1.1 Initial Data.mlx"</i> describes a creation of common vectors like time-vectors, frequency-vectors, etc. For data exchange  files with format ".mat" are used.
 
+For overview use <i>"1. Harmonics extraction.pdf"</i> file.
