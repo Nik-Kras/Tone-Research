@@ -1,9 +1,10 @@
-function [Fharm, pks] = HarmonicsExtraction(x, fs, MinFreqStep...
+function [Fharm, pks] = HarmonicsExtractionPlot(x, fs, MinFreqStep...
                                                     ,MinAmplitude)
-% HarmonicsExtraction gives:
+% HarmonicsExtractionPlot gives:
 %   Fharm - vector of frequencies that according to harmonics of x audio
 %   pks   - vector of amplitude of that harmonics
-% HarmonicsExtraction needs:
+%   Also it gives plots of Raw and Done extracted harmonics
+% HarmonicsExtractionPlot needs:
 %   x            - audio samples
 %   fs           - sampling frequency of x
 %   MinFreqStep  - minimum base frequency. Can be 0(zero). Default value
@@ -36,6 +37,20 @@ end
 % Raw Harmonics
 [pksRaw, FharmRaw] = findpeaks(Xp, fp, 'MinPeakDistance', MinFreqStep...
                           ,'MinPeakHeight', MinAmplitude);
+
+figure
+area(fp, Xp);
+hold on
+plot(FharmRaw, pksRaw, 'rv', 'MarkerFaceColor', 'r');
+yScaleAdd = max(pksRaw)*0.05; 
+cellpeaks = cellstr(num2str(round(FharmRaw', 0)));
+text(FharmRaw, yScaleAdd+pksRaw, cellpeaks, 'FontSize', 16);
+ylim([0 max(pksRaw)+2*yScaleAdd]);
+xlim([fp(1) FharmRaw(end)])
+hold off
+title('Raw Spectrum harmonics');
+xlabel('f, Hz');
+
 % Search for a base tone
 % It counts how many divisions were multiple (1:2, etc.)
 % And choose frequency with maximum comparations
@@ -85,7 +100,19 @@ for i = 1:length(FharmRaw)
         pks(FharmCnt) = pksRaw(i);
     end
 end
-                      
+
+figure
+area(fp, Xp);
+hold on
+plot(Fharm, pks, 'rv', 'MarkerFaceColor', 'r');
+yScaleAdd = max(pks)*0.05; 
+cellpeaks = cellstr(num2str(round(Fharm', 0)));
+text(Fharm, yScaleAdd+pks, cellpeaks, 'FontSize', 16);
+ylim([0 max(pks)+2*yScaleAdd]);
+xlim([fp(1) Fharm(end)])
+hold off
+title('Spectrum harmonics');
+xlabel('f, Hz');                      
                       
 end
 
