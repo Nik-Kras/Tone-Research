@@ -5,3 +5,7 @@ Also it contains a m-script <i>"HarmonicsExtraction.m"</i>, that realizes a func
 File <i>"1.1 Initial Data.mlx"</i> describes a creation of common vectors like time-vectors, frequency-vectors, etc. For data exchange  files with format ".mat" are used.
 
 For overview use <i>"1. Harmonics extraction.pdf"</i> file.
+
+It contains TEST Live Script <i>"1. Test of HE"</i>, where function HarmonicsExtraction is tested.
+
+HE* - Harmonics Extraction
